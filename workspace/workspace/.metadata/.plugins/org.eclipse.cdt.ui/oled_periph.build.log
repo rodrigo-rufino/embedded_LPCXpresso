@@ -1,0 +1,6 @@
+11:38:38 **** Incremental Build of configuration Debug for project oled_periph ****
+make -r all 
+make: Nothing to be done for `all'.
+
+11:38:39 Build Finished (took 1s.186ms)
+

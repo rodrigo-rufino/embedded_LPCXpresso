@@ -1,0 +1,90 @@
+/*
+===============================================================================
+ Name        : Project.c
+ Author      : $(author)
+ Version     :
+ Copyright   : $(copyright)
+ Description : main definition
+===============================================================================
+*/
+
+#ifdef __USE_CMSIS
+#include "LPC17xx.h"
+#endif
+
+#include "lpc17xx_pinsel.h"
+#include "lpc17xx_gpio.h"
+#include "lpc17xx_timer.h"
+#include "lpc17xx_ssp.h"
+
+#include "joystick.h"
+#include "rgb.h"
+#include "led7seg.h"
+#include "rotary.h"
+#include <cr_section_macros.h>
+
+#define INCREMENT 1
+
+
+int main (void) {
+
+    uint8_t state    = 0;
+    uint8_t ch = '0';
+
+    uint8_t r = 0;
+    uint8_t g = 0;
+    uint8_t b = 0;
+
+    uint8_t joy = 0;
+
+    uint8_t level = 0;
+
+    rgb_init();
+    joystick_init();
+    led7seg_init();
+
+    while(1) {
+
+        joy = joystick_read();
+
+
+        if ((joy & JOYSTICK_DOWN) != 0) {
+        	if (level > 0){
+        		level -= INCREMENT;
+        	} else if (level <= 0){
+        		level = 0;
+        	}
+        }
+
+        if ((joy & JOYSTICK_UP) != 0) {
+        	if (level<=100){
+        		level += INCREMENT;
+        	} else if (level > 100){
+        		level = 100;
+        	}
+        }
+
+        if (level < 30){
+        	r = RGB_RED;
+        	g = 0;
+        	b = 0;
+        	rgb_setLeds(r|g|b);
+        } else if (level >=30 && level <70){
+        	r = 0;
+        	g = 0;
+        	b = RGB_BLUE;
+        	rgb_setLeds(r|g|b);
+        } else {
+        	r = 0;
+        	g = RGB_GREEN;
+        	b = 0;
+        	rgb_setLeds(r|g|b);
+        }
+
+
+
+        /* delay */
+        Timer0_Wait(50);
+    }
+
+}

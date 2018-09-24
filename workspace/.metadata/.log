@@ -1,0 +1,75 @@
+!SESSION 2018-09-24 12:57:19.354 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_65
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86 -data C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\workspace1
+
+!ENTRY org.eclipse.ui 4 4 2018-09-24 12:57:23.329
+!MESSAGE Plugin org.eclipse.cdt.ui, extension org.eclipse.ui.decorators, id org.eclipse.cdt.internal.ui.CustomBuildSettingsDecorator: Duplicate id found: org.eclipse.cdt.internal.ui.CustomBuildSettingsDecorator
+
+!ENTRY org.eclipse.ui 4 4 2018-09-24 12:57:23.334
+!MESSAGE Plugin org.eclipse.cdt.ui, extension org.eclipse.ui.decorators, id org.eclipse.cdt.internal.ui.CustomBuildSettingsDecorator: Unknown extension tag found: decorator
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:45.579
+!MESSAGE Indexed 'oled_periph' (2 sources, 24 headers) in 0.68 sec: 1,861 declarations; 2,863 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:45.964
+!MESSAGE Indexed 'bnc_oled' (2 sources, 21 headers) in 0.186 sec: 1,775 declarations; 2,732 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:46.195
+!MESSAGE Indexed 'spi_flash' (2 sources, 20 headers) in 0.195 sec: 1,807 declarations; 2,822 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:46.368
+!MESSAGE Indexed 'CMSISv2p00_LPC17xx' (2 sources, 9 headers) in 0.147 sec: 1,211 declarations; 2,133 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:47.063
+!MESSAGE Indexed 'speaker_wav' (3 sources, 19 headers) in 0.198 sec: 1,734 declarations; 2,706 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:47.204
+!MESSAGE Indexed 'disp7seg_rotary' (2 sources, 19 headers) in 0.128 sec: 1,469 declarations; 2,462 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:47.353
+!MESSAGE Indexed 'rgb_joystick' (2 sources, 19 headers) in 0.134 sec: 1,496 declarations; 2,450 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:47.692
+!MESSAGE Indexed 'Lib_EaBaseBoard' (13 sources, 30 headers) in 0.318 sec: 2,584 declarations; 5,218 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:48.216
+!MESSAGE Indexed 'xbee_oled' (2 sources, 20 headers) in 0.519 sec: 1,833 declarations; 2,773 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:48.548
+!MESSAGE Indexed 'i2c_eeprom' (2 sources, 35 headers) in 0.327 sec: 2,164 declarations; 3,593 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:48.775
+!MESSAGE Indexed 'Lib_FatFs_SD' (2 sources, 18 headers) in 0.217 sec: 1,891 declarations; 5,562 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:48.938
+!MESSAGE Indexed 'Project' (3 sources, 20 headers) in 0.149 sec: 1,717 declarations; 2,333 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:49.067
+!MESSAGE Indexed 'speaker_tone' (2 sources, 17 headers) in 0.124 sec: 1,501 declarations; 2,467 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:49.277
+!MESSAGE Indexed 'demo' (2 sources, 27 headers) in 0.197 sec: 1,868 declarations; 2,928 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:49.404
+!MESSAGE Indexed 'leds_joystick' (2 sources, 19 headers) in 0.114 sec: 1,496 declarations; 2,437 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:50.129
+!MESSAGE Indexed 'mmc_fat' (2 sources, 50 headers) in 0.721 sec: 2,953 declarations; 4,666 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:50.276
+!MESSAGE Indexed 'uart2' (2 sources, 20 headers) in 0.143 sec: 1,804 declarations; 2,725 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:50.541
+!MESSAGE Indexed 'usbhostlite' (6 sources, 47 headers) in 0.26 sec: 2,740 declarations; 6,486 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:50.830
+!MESSAGE Indexed 'easyweb' (5 sources, 55 headers) in 0.284 sec: 3,376 declarations; 6,762 references; 0 unresolved inclusions; 1 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:51.337
+!MESSAGE Indexed 'Lib_MCU' (21 sources, 31 headers) in 0.484 sec: 4,029 declarations; 19,502 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-24 12:58:51.530
+!MESSAGE Indexed 'usbmem' (8 sources, 25 headers) in 0.188 sec: 1,781 declarations; 4,649 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
