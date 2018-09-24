@@ -20,10 +20,12 @@
 #include "lpc17xx_adc.h"
 
 #include "joystick.h"
+#include "pca9532.h"
 #include "led7seg.h"
 #include "oled.h"
 #include "temp.h"
 #include "rgb.h"
+#include "acc.h"
 
 #define INCREMENT 1
 
@@ -183,6 +185,7 @@ static void joystickLed(){
 	uint8_t r = 0;
 	uint8_t g = 0;
 	uint8_t b = 0;
+
     joy = joystick_read();
 
     if ((joy & JOYSTICK_DOWN) != 0) {
@@ -227,22 +230,22 @@ static int32_t temperatureLed(int32_t t){
 	t = temp_read();
 
 	if (t < 200){
+	// menor que 20 graus
 		r = 0;
 		g = 0;
 		b = RGB_BLUE;
-
 		rgb_setLeds(r|g|b);
 	} else if (t >=200 && t <350){
+	// entre 20 e 35 graus
 		r = 0;
 		g = RGB_GREEN;
 		b = 0;
-
 		rgb_setLeds(r|g|b);
 	} else {
+	// maior que 35 graus
 		r = RGB_RED;
 		g = 0;
 		b = 0;
-
 		rgb_setLeds(r|g|b);
 	}
 
@@ -252,6 +255,62 @@ static int32_t temperatureLed(int32_t t){
 
 	return t;
 }
+
+static void accLed(){
+
+	uint8_t threshold = 40;
+
+	// Inicializzacao das cores
+	uint8_t r = 0;
+	uint8_t g = 0;
+	uint8_t b = 0;
+
+    // eixos acelerometro
+    int8_t x = 0;
+	int8_t y = 0;
+	int8_t z = 0;
+    // offset acelerometro
+	int32_t xoff = 0;
+	int32_t yoff = 0;
+	int32_t zoff = 0;
+
+	acc_read(&x, &y, &z);
+	x = x+xoff;
+	y = y+yoff;
+	z = z+zoff;
+
+	if (x > threshold || x < -threshold){
+	// menor que 20 graus
+		r = 0;
+		g = 0;
+		b = RGB_BLUE;
+	} else if (y > threshold || y < -threshold){
+	// entre 20 e 35 graus
+		r = 0;
+		g = RGB_GREEN;
+		b = 0;
+	} else if (z > threshold || z < -threshold){
+	// maior que 35 graus
+		r = RGB_RED;
+		g = 0;
+		b = 0;
+	}
+
+	rgb_setLeds(r|g|b);
+
+    intToString(x, buf, 10, 10);
+	oled_fillRect((1+9*6),25, 80, 32, OLED_COLOR_WHITE);
+	oled_putString((1+9*6),25, buf, OLED_COLOR_BLACK, OLED_COLOR_WHITE);
+
+	intToString(y, buf, 10, 10);
+	oled_fillRect((1+9*6),33, 80, 40, OLED_COLOR_WHITE);
+	oled_putString((1+9*6),33, buf, OLED_COLOR_BLACK, OLED_COLOR_WHITE);
+
+	intToString(z, buf, 10, 10);
+	oled_fillRect((1+9*6),41, 80, 48, OLED_COLOR_WHITE);
+	oled_putString((1+9*6),41, buf, OLED_COLOR_BLACK, OLED_COLOR_WHITE);
+}
+
 int main (void) {
 	// Inicializacao do estado do display
 	// Valores da selecao:
@@ -261,18 +320,24 @@ int main (void) {
     uint8_t ch[] = {'0', '1', '2'};
     uint8_t displayCount = 0;
 
+    // botao
     uint8_t btn1 = 0;
 
+    // temperatura
     int32_t t = 0;
 
 	init_i2c();
 	init_ssp();
 	init_adc();
 
-    rgb_init();
     joystick_init();
+    pca9532_init();
     led7seg_init();
+
     oled_init();
+    acc_init();
+    rgb_init();
+
 
     temp_init(&getTicks);
 
@@ -285,12 +350,19 @@ int main (void) {
     oled_clearScreen(OLED_COLOR_WHITE);
 
 	oled_putString(1,1,  (uint8_t*)"Temp   : ", OLED_COLOR_BLACK, OLED_COLOR_WHITE);
+	oled_putString(1,25, (uint8_t*)"Acc x  : ", OLED_COLOR_BLACK, OLED_COLOR_WHITE);
+	oled_putString(1,33, (uint8_t*)"Acc y  : ", OLED_COLOR_BLACK, OLED_COLOR_WHITE);
+	oled_putString(1,41, (uint8_t*)"Acc z  : ", OLED_COLOR_BLACK, OLED_COLOR_WHITE);
 
     while(1) {
         btn1 = ((GPIO_ReadValue(0) >> 4) & 0x01);
 
         if (btn1 == 0){
         	displayCount++;
+        	// Escolhe qual sensor a informacao sera lida e mostrada nos leds:
+        	//	0 - joystick
+        	//	1 - temperatura
+        	//	2 - acelerometro
         	if (displayCount == 3){
         		displayCount = 0;
         	}
@@ -299,16 +371,13 @@ int main (void) {
         if (displayCount == 0){
         	led7seg_setChar(ch[displayCount], FALSE);
         	joystickLed();
-
         } else if (displayCount == 1) {
         	led7seg_setChar(ch[displayCount], FALSE);
         	t = temperatureLed(t);
-
         } else if (displayCount == 2){
         	led7seg_setChar(ch[displayCount], FALSE);
+        	accLed();
         }
-
-        oled_putPixel(50, 50, OLED_COLOR_BLACK);
 
         /* delay */
         Timer0_Wait(150);

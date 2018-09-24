@@ -15,7 +15,8 @@ src/Project.o src/Project.d: ../src/Project.c \
  C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc/led7seg.h \
  C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc/oled.h \
  C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc/temp.h \
- C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc/rgb.h
+ C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc/rgb.h \
+ C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc/acc.h
 
 C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\CMSISv2p00_LPC17xx\inc/LPC17xx.h:
 
@@ -50,3 +51,5 @@ C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_
 C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc/temp.h:
 
 C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc/rgb.h:
+
+C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc/acc.h:
