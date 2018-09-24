@@ -36,7 +36,6 @@ uint8_t level = 0;
 
 static uint32_t msTicks = 0;
 static uint8_t buf[10];
-static uint8_t barPos = 2;
 
 static void intToString(int value, uint8_t* pBuf, uint32_t len, uint32_t base)
 {
@@ -257,27 +256,7 @@ static int32_t temperatureLed(int32_t t){
 	return t;
 }
 
-static void moveBar(uint8_t steps, uint8_t dir)
-{
-    uint16_t ledOn = 0;
-
-    if (barPos == 0)
-        ledOn = (1 << 0) | (3 << 14);
-    else if (barPos == 1)
-        ledOn = (3 << 0) | (1 << 15);
-    else
-        ledOn = 0x07 << (barPos-2);
-
-    barPos += (dir*steps);
-    barPos = (barPos % 16);
-
-    pca9532_setLeds(ledOn, 0xffff);
-}
-
-
 static void accLed(){
-
-    moveBar(1, 1);
 
 	uint8_t threshold = 40;
 
@@ -332,6 +311,23 @@ static void accLed(){
 	oled_putString((1+9*6),41, buf, OLED_COLOR_BLACK, OLED_COLOR_WHITE);
 }
 
+static void moveBar(uint8_t steps, uint8_t dir)
+{
+    uint16_t ledOn = 0;
+
+    if (barPos == 0)
+        ledOn = (1 << 0) | (3 << 14);
+    else if (barPos == 1)
+        ledOn = (3 << 0) | (1 << 15);
+    else
+        ledOn = 0x07 << (barPos-2);
+
+    barPos += (dir*steps);
+    barPos = (barPos % 16);
+
+    pca9532_setLeds(ledOn, 0xffff);
+}
+
 int main (void) {
 	// Inicializacao do estado do display
 	// Valores da selecao:
@@ -375,8 +371,11 @@ int main (void) {
 	oled_putString(1,33, (uint8_t*)"Acc y  : ", OLED_COLOR_BLACK, OLED_COLOR_WHITE);
 	oled_putString(1,41, (uint8_t*)"Acc z  : ", OLED_COLOR_BLACK, OLED_COLOR_WHITE);
 
+	moveBar(1, dir);
+
     while(1) {
         btn1 = ((GPIO_ReadValue(0) >> 4) & 0x01);
+
         if (btn1 == 0){
         	displayCount++;
         	// Escolhe qual sensor a informacao sera lida e mostrada nos leds:

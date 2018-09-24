@@ -277,7 +277,7 @@ static void moveBar(uint8_t steps, uint8_t dir)
 
 static void accLed(){
 
-    moveBar(1, 1);
+    moveBar(1, dir);
 
 	uint8_t threshold = 40;
 

@@ -12,6 +12,7 @@ src/Project.o src/Project.d: ../src/Project.c \
  C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_MCU\inc/lpc17xx_i2c.h \
  C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_MCU\inc/lpc17xx_adc.h \
  C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc/joystick.h \
+ C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc/pca9532.h \
  C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc/led7seg.h \
  C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc/oled.h \
  C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc/temp.h \
@@ -43,6 +44,8 @@ C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_
 C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_MCU\inc/lpc17xx_adc.h:
 
 C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc/joystick.h:
+
+C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc/pca9532.h:
 
 C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc/led7seg.h:
 

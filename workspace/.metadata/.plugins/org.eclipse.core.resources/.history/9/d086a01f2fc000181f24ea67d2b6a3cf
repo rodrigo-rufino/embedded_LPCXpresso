@@ -257,27 +257,10 @@ static int32_t temperatureLed(int32_t t){
 	return t;
 }
 
-static void moveBar(uint8_t steps, uint8_t dir)
-{
-    uint16_t ledOn = 0;
-
-    if (barPos == 0)
-        ledOn = (1 << 0) | (3 << 14);
-    else if (barPos == 1)
-        ledOn = (3 << 0) | (1 << 15);
-    else
-        ledOn = 0x07 << (barPos-2);
-
-    barPos += (dir*steps);
-    barPos = (barPos % 16);
-
-    pca9532_setLeds(ledOn, 0xffff);
-}
-
-
 static void accLed(){
 
-    moveBar(1, 1);
+
+    moveBar(1, dir);
 
 	uint8_t threshold = 40;
 
@@ -330,6 +313,23 @@ static void accLed(){
 	intToString(z, buf, 10, 10);
 	oled_fillRect((1+9*6),41, 80, 48, OLED_COLOR_WHITE);
 	oled_putString((1+9*6),41, buf, OLED_COLOR_BLACK, OLED_COLOR_WHITE);
+}
+
+static void moveBar(uint8_t steps, uint8_t dir)
+{
+    uint16_t ledOn = 0;
+
+    if (barPos == 0)
+        ledOn = (1 << 0) | (3 << 14);
+    else if (barPos == 1)
+        ledOn = (3 << 0) | (1 << 15);
+    else
+        ledOn = 0x07 << (barPos-2);
+
+    barPos += (dir*steps);
+    barPos = (barPos % 16);
+
+    pca9532_setLeds(ledOn, 0xffff);
 }
 
 int main (void) {
