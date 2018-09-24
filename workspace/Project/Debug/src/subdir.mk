@@ -23,7 +23,7 @@ C_DEPS += \
 src/%.o: ../src/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU C Compiler'
-	arm-none-eabi-gcc -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_CMSIS=CMSISv2p00_LPC17xx -D__LPC17XX__ -D__REDLIB__ -I"C:\Users\aluno.RACK20-035525NB\Documents\LPCXpresso_8.2.2_650\workspace\CMSISv2p00_LPC17xx\inc" -I"C:\Users\aluno.RACK20-035525NB\Documents\LPCXpresso_8.2.2_650\workspace\Lib_EaBaseBoard\inc" -I"C:\Users\aluno.RACK20-035525NB\Documents\LPCXpresso_8.2.2_650\workspace\Lib_MCU\inc" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -specs=redlib.specs -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	arm-none-eabi-gcc -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_CMSIS=CMSISv2p00_LPC17xx -D__LPC17XX__ -D__REDLIB__ -I"C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\CMSISv2p00_LPC17xx\inc" -I"C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\inc" -I"C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_MCU\inc" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -specs=redlib.specs -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

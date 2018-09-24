@@ -29,7 +29,7 @@ all: oled_periph.axf
 oled_periph.axf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MCU Linker'
-	arm-none-eabi-gcc -nostdlib -L"C:\Users\aluno.RACK20-035525NB\Documents\LPCXpresso_8.2.2_650\workspace\CMSISv2p00_LPC17xx\Debug" -L"C:\Users\aluno.RACK20-035525NB\Documents\LPCXpresso_8.2.2_650\workspace\Lib_EaBaseBoard\Debug" -L"C:\Users\aluno.RACK20-035525NB\Documents\LPCXpresso_8.2.2_650\workspace\Lib_MCU\Debug" -Xlinker --gc-sections -Xlinker -Map=oled_periph.map -mcpu=cortex-m3 -mthumb -T "rdb1768cmsis_uart_Debug.ld" -o "oled_periph.axf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -nostdlib -L"C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\CMSISv2p00_LPC17xx\Debug" -L"C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_EaBaseBoard\Debug" -L"C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace\Lib_MCU\Debug" -Xlinker --gc-sections -Xlinker -Map=oled_periph.map -mcpu=cortex-m3 -mthumb -T "rdb1768cmsis_uart_Debug.ld" -o "oled_periph.axf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	$(MAKE) --no-print-directory post-build

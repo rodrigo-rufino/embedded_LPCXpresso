@@ -17,12 +17,8 @@
 #include "lpc17xx_adc.h"
 #include "lpc17xx_timer.h"
 
-
-#include "light.h"
 #include "oled.h"
 #include "temp.h"
-#include "acc.h"
-
 
 static uint32_t msTicks = 0;
 static uint8_t buf[10];
@@ -172,17 +168,7 @@ static void init_adc(void)
 
 int main (void)
 {
-    int32_t xoff = 0;
-    int32_t yoff = 0;
-    int32_t zoff = 0;
-
-    int8_t x = 0;
-    int8_t y = 0;
-    int8_t z = 0;
-
-    int32_t t = 0;
-    uint32_t lux = 0;
-    uint32_t trim = 0;
+       int32_t t = 0;
 
 
     init_i2c();
@@ -190,8 +176,6 @@ int main (void)
     init_adc();
 
     oled_init();
-    light_init();
-    acc_init();
 
     temp_init (&getTicks);
 
@@ -200,71 +184,20 @@ int main (void)
 		    while (1);  // Capture error
 	}
 
-    /*
-     * Assume base board in zero-g position when reading first value.
-     */
-    acc_read(&x, &y, &z);
-    xoff = 0-x;
-    yoff = 0-y;
-    zoff = 64-z;
-
-    light_enable();
-    light_setRange(LIGHT_RANGE_4000);
-
     oled_clearScreen(OLED_COLOR_WHITE);
 
     oled_putString(1,1,  (uint8_t*)"Temp   : ", OLED_COLOR_BLACK, OLED_COLOR_WHITE);
-    oled_putString(1,9,  (uint8_t*)"Light  : ", OLED_COLOR_BLACK, OLED_COLOR_WHITE);
-    oled_putString(1,17, (uint8_t*)"Trimpot: ", OLED_COLOR_BLACK, OLED_COLOR_WHITE);
-    oled_putString(1,25, (uint8_t*)"Acc x  : ", OLED_COLOR_BLACK, OLED_COLOR_WHITE);
-    oled_putString(1,33, (uint8_t*)"Acc y  : ", OLED_COLOR_BLACK, OLED_COLOR_WHITE);
-    oled_putString(1,41, (uint8_t*)"Acc z  : ", OLED_COLOR_BLACK, OLED_COLOR_WHITE);
 
     while(1) {
 
-        /* Accelerometer */
-        acc_read(&x, &y, &z);
-        x = x+xoff;
-        y = y+yoff;
-        z = z+zoff;
-
         /* Temperature */
         t = temp_read();
-
-        /* light */
-        lux = light_read();
-
-        /* trimpot */
-		ADC_StartCmd(LPC_ADC,ADC_START_NOW);
-		//Wait conversion complete
-		while (!(ADC_ChannelGetStatus(LPC_ADC,ADC_CHANNEL_0,ADC_DATA_DONE)));
-		trim = ADC_ChannelGetData(LPC_ADC,ADC_CHANNEL_0);
 
         /* output values to OLED display */
 
         intToString(t, buf, 10, 10);
         oled_fillRect((1+9*6),1, 80, 8, OLED_COLOR_WHITE);
         oled_putString((1+9*6),1, buf, OLED_COLOR_BLACK, OLED_COLOR_WHITE);
-
-        intToString(lux, buf, 10, 10);
-        oled_fillRect((1+9*6),9, 80, 16, OLED_COLOR_WHITE);
-        oled_putString((1+9*6),9, buf, OLED_COLOR_BLACK, OLED_COLOR_WHITE);
-
-        intToString(trim, buf, 10, 10);
-        oled_fillRect((1+9*6),17, 80, 24, OLED_COLOR_WHITE);
-        oled_putString((1+9*6),17, buf, OLED_COLOR_BLACK, OLED_COLOR_WHITE);
-
-        intToString(x, buf, 10, 10);
-        oled_fillRect((1+9*6),25, 80, 32, OLED_COLOR_WHITE);
-        oled_putString((1+9*6),25, buf, OLED_COLOR_BLACK, OLED_COLOR_WHITE);
-
-        intToString(y, buf, 10, 10);
-        oled_fillRect((1+9*6),33, 80, 40, OLED_COLOR_WHITE);
-        oled_putString((1+9*6),33, buf, OLED_COLOR_BLACK, OLED_COLOR_WHITE);
-
-        intToString(z, buf, 10, 10);
-        oled_fillRect((1+9*6),41, 80, 48, OLED_COLOR_WHITE);
-        oled_putString((1+9*6),41, buf, OLED_COLOR_BLACK, OLED_COLOR_WHITE);
 
         /* delay */
         Timer0_Wait(200);
