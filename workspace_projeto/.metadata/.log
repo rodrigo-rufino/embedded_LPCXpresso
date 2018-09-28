@@ -1,0 +1,228 @@
+!SESSION 2018-09-28 13:12:54.793 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_65
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86 -data C:\Users\rodri\Documents\LPCXpresso_8.2.2_650\embedded_LPCXpresso\workspace_projeto
+
+!ENTRY org.eclipse.ui 4 4 2018-09-28 13:12:59.205
+!MESSAGE Plugin org.eclipse.cdt.ui, extension org.eclipse.ui.decorators, id org.eclipse.cdt.internal.ui.CustomBuildSettingsDecorator: Duplicate id found: org.eclipse.cdt.internal.ui.CustomBuildSettingsDecorator
+
+!ENTRY org.eclipse.ui 4 4 2018-09-28 13:12:59.211
+!MESSAGE Plugin org.eclipse.cdt.ui, extension org.eclipse.ui.decorators, id org.eclipse.cdt.internal.ui.CustomBuildSettingsDecorator: Unknown extension tag found: decorator
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-28 13:13:55.474
+!MESSAGE Indexed 'CMSISv2p00_LPC17xx' (2 sources, 9 headers) in 0.576 sec: 1,211 declarations; 2,133 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-28 13:13:55.938
+!MESSAGE Indexed 'Lib_EaBaseBoard' (13 sources, 30 headers) in 0.413 sec: 2,584 declarations; 5,218 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-28 13:13:56.515
+!MESSAGE Indexed 'Lib_MCU' (21 sources, 31 headers) in 0.557 sec: 4,029 declarations; 19,502 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2018-09-28 13:13:57.279
+!MESSAGE Indexed 'easyweb' (5 sources, 55 headers) in 0.759 sec: 3,376 declarations; 6,762 references; 0 unresolved inclusions; 1 syntax errors; 0 unresolved names (0%)
+
+!ENTRY com.crt.log 1 0 2018-09-28 13:14:54.151
+!MESSAGE Drivers loaded in 1815 milliseconds
+
+!ENTRY com.crt.debugcommon 2 0 2018-09-28 13:26:29.056
+!MESSAGE All SWD targets are currently connected to other debug sessions.
+
+
+Press 'Cancel' to terminate this launch.
+
+!ENTRY com.crt.dsfdebug 4 0 2018-09-28 13:26:32.722
+!MESSAGE 10: Could not start execution from stop
+!SUBENTRY 1 com.crt.dsfdebug 4 0 2018-09-28 13:26:32.722
+!MESSAGE 10: Could not start execution from stop
+!SUBENTRY 1 com.crt.dsfdebug 4 0 2018-09-28 13:26:32.722
+!MESSAGE ACK Fault
+
+!ENTRY com.crt.log 1 0 2018-09-28 13:26:48.629
+!MESSAGE Drivers loaded in 1266 milliseconds
+
+!ENTRY com.crt.debugcommon 2 0 2018-09-28 13:30:52.572
+!MESSAGE All SWD targets are currently connected to other debug sessions.
+
+
+Press 'Cancel' to terminate this launch.
+
+!ENTRY com.crt.dsfdebug 4 0 2018-09-28 13:30:52.826
+!MESSAGE 16: Target error from status-poll
+!SUBENTRY 1 com.crt.dsfdebug 4 0 2018-09-28 13:30:52.826
+!MESSAGE 16: Target error from status-poll
+!SUBENTRY 1 com.crt.dsfdebug 4 0 2018-09-28 13:30:52.826
+!MESSAGE ACK Fault
+
+!ENTRY com.crt.dsfdebug 4 0 2018-09-28 13:30:59.822
+!MESSAGE 16: Target error from status-poll
+!SUBENTRY 1 com.crt.dsfdebug 4 0 2018-09-28 13:30:59.822
+!MESSAGE 16: Target error from status-poll
+!SUBENTRY 1 com.crt.dsfdebug 4 0 2018-09-28 13:30:59.822
+!MESSAGE Hardware Transfer Error
+
+!ENTRY com.crt.dsfdebug 4 0 2018-09-28 13:31:10.808
+!MESSAGE 16: Target error from status-poll: Ee(FF). Redlink interface error 255.
+!SUBENTRY 1 com.crt.dsfdebug 4 0 2018-09-28 13:31:10.808
+!MESSAGE 16: Target error from status-poll: Ee(FF). Redlink interface error 255.
+
+!ENTRY com.crt.log 1 0 2018-09-28 13:31:14.884
+!MESSAGE Drivers loaded in 1203 milliseconds
+
+!ENTRY com.crt.debugcommon 2 0 2018-09-28 13:32:08.880
+!MESSAGE All SWD targets are currently connected to other debug sessions.
+
+
+Press 'Cancel' to terminate this launch.
+
+!ENTRY com.crt.dsfdebug 4 0 2018-09-28 13:32:09.135
+!MESSAGE 16: Target error from status-poll
+!SUBENTRY 1 com.crt.dsfdebug 4 0 2018-09-28 13:32:09.135
+!MESSAGE 16: Target error from status-poll
+!SUBENTRY 1 com.crt.dsfdebug 4 0 2018-09-28 13:32:09.135
+!MESSAGE ACK Fault
+
+!ENTRY com.crt.dsfdebug 4 0 2018-09-28 13:32:21.907
+!MESSAGE 16: Target error from status-poll: Ee(FF). Redlink interface error 255.
+!SUBENTRY 1 com.crt.dsfdebug 4 0 2018-09-28 13:32:21.907
+!MESSAGE 16: Target error from status-poll: Ee(FF). Redlink interface error 255.
+
+!ENTRY com.crt.log 1 0 2018-09-28 13:32:27.420
+!MESSAGE Drivers loaded in 1245 milliseconds
+
+!ENTRY com.crt.debugcommon 2 0 2018-09-28 13:35:41.385
+!MESSAGE All SWD targets are currently connected to other debug sessions.
+
+
+Press 'Cancel' to terminate this launch.
+
+!ENTRY com.crt.dsfdebug 4 0 2018-09-28 13:35:45.213
+!MESSAGE 10: Could not start execution from stop
+!SUBENTRY 1 com.crt.dsfdebug 4 0 2018-09-28 13:35:45.214
+!MESSAGE 10: Could not start execution from stop
+!SUBENTRY 1 com.crt.dsfdebug 4 0 2018-09-28 13:35:45.214
+!MESSAGE ACK Fault
+
+!ENTRY com.crt.log 1 0 2018-09-28 13:36:01.507
+!MESSAGE Drivers loaded in 1376 milliseconds
+
+!ENTRY com.crt.debugcommon 2 0 2018-09-28 13:37:33.745
+!MESSAGE All SWD targets are currently connected to other debug sessions.
+
+
+Press 'Cancel' to terminate this launch.
+
+!ENTRY com.crt.log 1 0 2018-09-28 13:37:46.055
+!MESSAGE Drivers loaded in 1199 milliseconds
+
+!ENTRY com.crt.debugcommon 2 0 2018-09-28 14:09:25.073
+!MESSAGE All SWD targets are currently connected to other debug sessions.
+
+
+Press 'Cancel' to terminate this launch.
+
+!ENTRY com.crt.log 1 0 2018-09-28 14:09:36.476
+!MESSAGE Drivers loaded in 1247 milliseconds
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2018-09-28 14:10:17.751
+!MESSAGE Request for monitor: 'RequestMonitor (org.eclipse.cdt.dsf.concurrent.RequestMonitor@125cb9c): Status ERROR: org.eclipse.cdt.dsf.gdb code=10001 Given context: (gdb[24].proc[1].threadGroup[i1],gdb[24].proc[1].OSthread[1]).thread[1], is already running. null' resulted in an error.
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10001 2018-09-28 14:10:17.751
+!MESSAGE Given context: (gdb[24].proc[1].threadGroup[i1],gdb[24].proc[1].OSthread[1]).thread[1], is already running.
+
+!ENTRY com.crt.debugcommon 2 0 2018-09-28 14:19:01.995
+!MESSAGE All SWD targets are currently connected to other debug sessions.
+
+
+Press 'Cancel' to terminate this launch.
+
+!ENTRY com.crt.debugcommon 2 0 2018-09-28 14:19:15.124
+!MESSAGE All SWD targets are currently connected to other debug sessions.
+
+
+Press 'Cancel' to terminate this launch.
+
+!ENTRY com.crt.log 1 0 2018-09-28 14:19:27.157
+!MESSAGE Drivers loaded in 1504 milliseconds
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2018-09-28 14:24:45.825
+!MESSAGE Request for monitor: 'RequestMonitor (org.eclipse.cdt.dsf.mi.service.MIRunControl$9@bbc455): Status ERROR: org.eclipse.cdt.dsf.gdb code=10004 Interrupt failed. null' resulted in an error.
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2018-09-28 14:24:45.825
+!MESSAGE Interrupt failed.
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2018-09-28 14:24:45.831
+!MESSAGE Request for monitor: 'RequestMonitor (org.eclipse.cdt.dsf.mi.service.MIRunControl$9@f2dbce): Status ERROR: org.eclipse.cdt.dsf.gdb code=10004 Interrupt failed. null' resulted in an error.
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2018-09-28 14:24:45.831
+!MESSAGE Interrupt failed.
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2018-09-28 14:24:48.000
+!MESSAGE Request for monitor: 'RequestMonitor (com.crt.etmetb.redlink.RedlinkClient$3@4b7b1b): Status ERROR: com.crt.etmetb code=0 Problem obtaining SWO buffer content. java.net.SocketException: Connection reset by peer: socket write error' resulted in an error.
+!SUBENTRY 1 com.crt.etmetb 4 0 2018-09-28 14:24:48.000
+!MESSAGE Problem obtaining SWO buffer content.
+!STACK 0
+java.net.SocketException: Connection reset by peer: socket write error
+	at java.net.SocketOutputStream.socketWrite0(Native Method)
+	at java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:109)
+	at java.net.SocketOutputStream.write(SocketOutputStream.java:141)
+	at com.crt.etmetb.redlink.RedlinkClient$2.run(RedlinkClient.java:135)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2018-09-28 14:24:48.033
+!MESSAGE Request for monitor: 'RequestMonitor (com.crt.etmetb.redlink.RedlinkClient$3@120a381): Status ERROR: com.crt.etmetb code=0 Problem obtaining SWO buffer content. java.net.SocketException: Connection reset by peer: socket write error' resulted in an error.
+!SUBENTRY 1 com.crt.etmetb 4 0 2018-09-28 14:24:48.033
+!MESSAGE Problem obtaining SWO buffer content.
+!STACK 0
+java.net.SocketException: Connection reset by peer: socket write error
+	at java.net.SocketOutputStream.socketWrite0(Native Method)
+	at java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:109)
+	at java.net.SocketOutputStream.write(SocketOutputStream.java:141)
+	at com.crt.etmetb.redlink.RedlinkClient$2.run(RedlinkClient.java:135)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+!ENTRY org.eclipse.core.jobs 4 2 2018-09-28 14:24:52.852
+!MESSAGE An internal error occurred during: "Interrupt monitor job.".
+!STACK 0
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@2c1bea rejected from org.eclipse.cdt.dsf.concurrent.DefaultDsfExecutor@16b944c[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 31154]
+	at java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2047)
+	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:823)
+	at java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute(ScheduledThreadPoolExecutor.java:326)
+	at java.util.concurrent.ScheduledThreadPoolExecutor.schedule(ScheduledThreadPoolExecutor.java:533)
+	at org.eclipse.cdt.dsf.concurrent.DefaultDsfExecutor.schedule(DefaultDsfExecutor.java:438)
+	at java.util.concurrent.ScheduledThreadPoolExecutor.submit(ScheduledThreadPoolExecutor.java:632)
+	at org.eclipse.cdt.dsf.concurrent.DefaultDsfExecutor.submit(DefaultDsfExecutor.java:470)
+	at org.eclipse.cdt.dsf.gdb.service.GDBBackend$MonitorInterruptJob.run(GDBBackend.java:904)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.eclipse.core.jobs 4 2 2018-09-28 14:24:52.858
+!MESSAGE An internal error occurred during: "Interrupt monitor job.".
+!STACK 0
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@199a719 rejected from org.eclipse.cdt.dsf.concurrent.DefaultDsfExecutor@14e1e1b[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 29102]
+	at java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2047)
+	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:823)
+	at java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute(ScheduledThreadPoolExecutor.java:326)
+	at java.util.concurrent.ScheduledThreadPoolExecutor.schedule(ScheduledThreadPoolExecutor.java:533)
+	at org.eclipse.cdt.dsf.concurrent.DefaultDsfExecutor.schedule(DefaultDsfExecutor.java:438)
+	at java.util.concurrent.ScheduledThreadPoolExecutor.submit(ScheduledThreadPoolExecutor.java:632)
+	at org.eclipse.cdt.dsf.concurrent.DefaultDsfExecutor.submit(DefaultDsfExecutor.java:470)
+	at org.eclipse.cdt.dsf.gdb.service.GDBBackend$MonitorInterruptJob.run(GDBBackend.java:904)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 4 0 2018-09-28 14:34:23.678
+!MESSAGE 16: Target error from status-poll
+!SUBENTRY 1 com.crt.dsfdebug 4 0 2018-09-28 14:34:23.678
+!MESSAGE 16: Target error from status-poll
+!SUBENTRY 1 com.crt.dsfdebug 4 0 2018-09-28 14:34:23.678
+!MESSAGE Hardware Transfer Error
+!SUBENTRY 1 com.crt.dsfdebug 4 0 2018-09-28 14:34:23.678
+!MESSAGE 16: Target error from status-poll: Ee(FF). Redlink interface error 255.
+
+!ENTRY com.crt.log 1 0 2018-09-28 14:39:21.225
+!MESSAGE Drivers loaded in 1232 milliseconds

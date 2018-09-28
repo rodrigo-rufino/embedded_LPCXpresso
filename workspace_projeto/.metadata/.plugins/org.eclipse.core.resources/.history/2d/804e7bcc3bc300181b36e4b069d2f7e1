@@ -1,0 +1,548 @@
+/******************************************************************
+ *****                                                        *****
+ *****  Name: easyweb.c                                       *****
+ *****  Ver.: 1.0                                             *****
+ *****  Date: 07/05/2001                                      *****
+ *****  Auth: Andreas Dannenberg                              *****
+ *****        HTWK Leipzig                                    *****
+ *****        university of applied sciences                  *****
+ *****        Germany                                         *****
+ *****        adannenb@et.htwk-leipzig.de                     *****
+ *****  Func: implements a dynamic HTTP-server by using       *****
+ *****        the easyWEB-API                                 *****
+ *****  Rem.: In IAR-C, use  linker option                    *****
+ *****        "-e_medium_write=_formatted_write"              *****
+ *****                                                        *****
+ ******************************************************************/
+
+// Modifications by Code Red Technologies for NXP LPC1768
+
+// CodeRed - removed header for MSP430 microcontroller
+//#include "msp430x14x.h"
+
+#include "stdlib.h"
+#include "stdio.h"
+#include "string.h"
+
+// CodeRed - added #define extern on next line (else variables
+// not defined). This has been done due to include the .h files 
+// rather than the .c files as in the original version of easyweb.
+#define extern 
+
+#include "easyweb.h"
+#include "ethmac.h"
+#include "tcpip.h"                               // easyWEB TCP/IP stack
+#include "LPC17xx.h"
+#include "webside.h"                             // webside for our HTTP server (HTML)
+
+#include "lpc17xx_pinsel.h"
+#include "lpc17xx_timer.h"
+#include "lpc17xx_gpio.h"
+#include "lpc17xx_ssp.h"
+#include "lpc17xx_i2c.h"
+#include "lpc17xx_adc.h"
+
+#include "joystick.h"
+#include "pca9532.h"
+#include "led7seg.h"
+#include "oled.h"
+#include "temp.h"
+#include "rgb.h"
+#include "acc.h"
+
+#define INCREMENT 1
+
+// Inicializacao do Joystick
+uint8_t joy = 0;
+uint8_t level = 0;
+
+static uint8_t buf[50];
+static uint8_t barPos = 2;
+
+// CodeRed - added for use in dynamic side of web page
+unsigned int aaPagecounter=0;
+unsigned int adcValue = 0;
+
+extern void TCPClockHandler(void);
+volatile uint32_t TimeTick = 0;
+volatile uint32_t TimeTick2 = 0;
+volatile uint32_t msTicks = 0;
+
+static uint32_t getTicks(void)
+{
+    return msTicks;
+}
+
+// ****************
+//  SysTick_Handler
+void SysTick_Handler(void)
+{
+	TimeTick++;		// Increment first SysTick counter
+	TimeTick2++;	// Increment second SysTick counter
+	msTicks++;
+
+	// After 100 ticks (100 x 10ms = 1sec)
+	if (TimeTick >= 100) {
+	  TimeTick = 0;	// Reset counter
+	  LPC_GPIO1->FIOPIN ^= 1 << 25;	// Toggle user LED
+	}
+	// After 20 ticks (20 x 10ms = 1/5sec)
+	if (TimeTick2 >= 20) {
+	  TimeTick2 = 0; // Reset counter
+	  TCPClockHandler();  // Call TCP handler
+	}
+}
+
+// ****************
+// Setup SysTick Timer to interrupt at 10 msec intervals
+void Start_SysTick10ms(void)
+{
+	if (SysTick_Config(SystemCoreClock / 100)) {
+		while (1);  // Capture error
+	}
+}
+
+static void intToString(int value, uint8_t* pBuf, uint32_t len, uint32_t base)
+{
+    static const char* pAscii = "0123456789abcdefghijklmnopqrstuvwxyz";
+    int pos = 0;
+    int tmpValue = value;
+
+    // the buffer must not be null and at least have a length of 2 to handle one
+    // digit and null-terminator
+    if (pBuf == NULL || len < 2)
+    {
+        return;
+    }
+
+    // a valid base cannot be less than 2 or larger than 36
+    // a base value of 2 means binary representation. A value of 1 would mean only zeros
+    // a base larger than 36 can only be used if a larger alphabet were used.
+    if (base < 2 || base > 36)
+    {
+        return;
+    }
+
+    // negative value
+    if (value < 0)
+    {
+        tmpValue = -tmpValue;
+        value    = -value;
+        pBuf[pos++] = '-';
+    }
+
+    // calculate the required length of the buffer
+    do {
+        pos++;
+        tmpValue /= base;
+    } while(tmpValue > 0);
+
+
+    if (pos > len)
+    {
+        // the len parameter is invalid.
+        return;
+    }
+
+    pBuf[pos] = '\0';
+
+    do {
+        pBuf[--pos] = pAscii[value % base];
+        value /= base;
+    } while(value > 0);
+
+    return;
+
+}
+
+static void init_ssp(void)
+{
+	SSP_CFG_Type SSP_ConfigStruct;
+	PINSEL_CFG_Type PinCfg;
+
+	/*
+	 * Initialize SPI pin connect
+	 * P0.7 - SCK;
+	 * P0.8 - MISO
+	 * P0.9 - MOSI
+	 * P2.2 - SSEL - used as GPIO
+	 */
+	PinCfg.Funcnum = 2;
+	PinCfg.OpenDrain = 0;
+	PinCfg.Pinmode = 0;
+	PinCfg.Portnum = 0;
+	PinCfg.Pinnum = 7;
+	PINSEL_ConfigPin(&PinCfg);
+	PinCfg.Pinnum = 8;
+	PINSEL_ConfigPin(&PinCfg);
+	PinCfg.Pinnum = 9;
+	PINSEL_ConfigPin(&PinCfg);
+	PinCfg.Funcnum = 0;
+	PinCfg.Portnum = 2;
+	PinCfg.Pinnum = 2;
+	PINSEL_ConfigPin(&PinCfg);
+
+	SSP_ConfigStructInit(&SSP_ConfigStruct);
+
+	// Initialize SSP peripheral with parameter given in structure above
+	SSP_Init(LPC_SSP1, &SSP_ConfigStruct);
+
+	// Enable SSP peripheral
+	SSP_Cmd(LPC_SSP1, ENABLE);
+
+}
+
+static void init_i2c(void)
+{
+	PINSEL_CFG_Type PinCfg;
+
+	/* Initialize I2C2 pin connect */
+	PinCfg.Funcnum = 2;
+	PinCfg.Pinnum = 10;
+	PinCfg.Portnum = 0;
+	PINSEL_ConfigPin(&PinCfg);
+	PinCfg.Pinnum = 11;
+	PINSEL_ConfigPin(&PinCfg);
+
+	// Initialize I2C peripheral
+	I2C_Init(LPC_I2C2, 100000);
+
+	/* Enable I2C1 operation */
+	I2C_Cmd(LPC_I2C2, ENABLE);
+}
+
+static void init_adc(void)
+{
+	PINSEL_CFG_Type PinCfg;
+
+	/*
+	 * Init ADC pin connect
+	 * AD0.0 on P0.23
+	 */
+	PinCfg.Funcnum = 1;
+	PinCfg.OpenDrain = 0;
+	PinCfg.Pinmode = 0;
+	PinCfg.Pinnum = 23;
+	PinCfg.Portnum = 0;
+	PINSEL_ConfigPin(&PinCfg);
+
+	/* Configuration for ADC :
+	 * 	Frequency at 1Mhz
+	 *  ADC channel 0, no Interrupt
+	 */
+	ADC_Init(LPC_ADC, 1000000);
+	ADC_IntConfig(LPC_ADC,ADC_CHANNEL_0,DISABLE);
+	ADC_ChannelCmd(LPC_ADC,ADC_CHANNEL_0,ENABLE);
+
+}
+
+static void joystickLed(){
+	// Inicializzacao das cores
+	uint8_t r = 0;
+	uint8_t g = 0;
+	uint8_t b = 0;
+
+    joy = joystick_read();
+
+    if ((joy & JOYSTICK_DOWN) != 0) {
+		if (level > 0){
+			level -= INCREMENT;
+		} else if (level <= 0){
+			level = 0;
+		}
+	}
+
+	if ((joy & JOYSTICK_UP) != 0) {
+		if (level<=10){
+			level += INCREMENT;
+		} else if (level > 10){
+			level = 10;
+		}
+	}
+
+	if (level < 3){
+		r = RGB_RED;
+		g = 0;
+		b = 0;
+		rgb_setLeds(r|g|b);
+	} else if (level >=3 && level <7){
+		r = 0;
+		g = 0;
+		b = RGB_BLUE;
+		rgb_setLeds(r|g|b);
+	} else {
+		r = 0;
+		g = RGB_GREEN;
+		b = 0;
+		rgb_setLeds(r|g|b);
+	}
+}
+
+static int32_t temperatureLed(int32_t t){
+	// Inicializzacao das cores
+	uint8_t r = 0;
+	uint8_t g = 0;
+	uint8_t b = 0;
+	t = temp_read();
+
+	if (t < 200){
+	// menor que 20 graus
+		r = 0;
+		g = 0;
+		b = RGB_BLUE;
+		rgb_setLeds(r|g|b);
+	} else if (t >=200 && t <350){
+	// entre 20 e 35 graus
+		r = 0;
+		g = RGB_GREEN;
+		b = 0;
+		rgb_setLeds(r|g|b);
+	} else {
+	// maior que 35 graus
+		r = RGB_RED;
+		g = 0;
+		b = 0;
+		rgb_setLeds(r|g|b);
+	}
+
+	intToString(t, buf, 10, 10);
+	oled_fillRect((1+9*6),1, 80, 8, OLED_COLOR_WHITE);
+	oled_putString((1+9*6),1, buf, OLED_COLOR_BLACK, OLED_COLOR_WHITE);
+
+	return t;
+}
+
+static void moveBar(uint8_t steps, uint8_t dir)
+{
+    uint16_t ledOn = 0;
+
+    if (barPos == 0)
+        ledOn = (1 << 0) | (3 << 14);
+    else if (barPos == 1)
+        ledOn = (3 << 0) | (1 << 15);
+    else
+        ledOn = 0x07 << (barPos-2);
+
+    barPos += (dir*steps);
+    barPos = (barPos % 16);
+
+    pca9532_setLeds(ledOn, 0xffff);
+}
+
+
+static void accLed(){
+
+    moveBar(1, 1);
+
+	uint8_t threshold = 40;
+
+	// Inicializzacao das cores
+	uint8_t r = 0;
+	uint8_t g = 0;
+	uint8_t b = 0;
+
+    // eixos acelerometro
+    int8_t x = 0;
+	int8_t y = 0;
+	int8_t z = 0;
+    // offset acelerometro
+	int32_t xoff = 0;
+	int32_t yoff = 0;
+	int32_t zoff = 0;
+
+	acc_read(&x, &y, &z);
+	x = x+xoff;
+	y = y+yoff;
+	z = z+zoff;
+
+	if (x > threshold || x < -threshold){
+	// menor que 20 graus
+		r = 0;
+		g = 0;
+		b = RGB_BLUE;
+	} else if (y > threshold || y < -threshold){
+	// entre 20 e 35 graus
+		r = 0;
+		g = RGB_GREEN;
+		b = 0;
+	} else if (z > threshold || z < -threshold){
+	// maior que 35 graus
+		r = RGB_RED;
+		g = 0;
+		b = 0;
+	}
+
+	rgb_setLeds(r|g|b);
+
+    intToString(x, buf, 10, 10);
+	oled_fillRect((1+9*6),25, 80, 32, OLED_COLOR_WHITE);
+	oled_putString((1+9*6),25, buf, OLED_COLOR_BLACK, OLED_COLOR_WHITE);
+
+	intToString(y, buf, 10, 10);
+	oled_fillRect((1+9*6),33, 80, 40, OLED_COLOR_WHITE);
+	oled_putString((1+9*6),33, buf, OLED_COLOR_BLACK, OLED_COLOR_WHITE);
+
+	intToString(z, buf, 10, 10);
+	oled_fillRect((1+9*6),41, 80, 48, OLED_COLOR_WHITE);
+	oled_putString((1+9*6),41, buf, OLED_COLOR_BLACK, OLED_COLOR_WHITE);
+}
+
+int main (void)
+{
+	// Inicializacao do estado do display
+	// Valores da selecao:
+	//	0 = Joystick
+	// 	1 = Acc
+	//	2 = Temperatura
+    uint8_t ch[] = {'0', '1', '2'};
+    uint8_t displayCount = 0;
+
+    // botao
+    uint8_t btn1 = 0;
+
+    // temperatura
+    int32_t t = 0;
+
+	init_i2c();
+	init_ssp();
+	init_adc();
+
+    joystick_init();
+    pca9532_init();
+    led7seg_init();
+
+    oled_init();
+    acc_init();
+    rgb_init();
+
+	uint8_t buf[50];
+
+
+
+
+    /*oled_clearScreen(OLED_COLOR_WHITE);
+
+    oled_putString(1,1,  (uint8_t*)"EasyWeb Demo", OLED_COLOR_BLACK, OLED_COLOR_WHITE);
+    oled_putString(1,17, (uint8_t*)"IP Address:", OLED_COLOR_BLACK, OLED_COLOR_WHITE);
+
+    sprintf((char*)buf, " %d.%d.%d.%d", MYIP_1, MYIP_2, MYIP_3, MYIP_4);
+    oled_putString(1,25, (uint8_t*)buf, OLED_COLOR_BLACK, OLED_COLOR_WHITE);*/
+
+	TCPLowLevelInit();
+
+	HTTPStatus = 0;                                // clear HTTP-server's flag register
+
+	TCPLocalPort = TCP_PORT_HTTP;                  // set port we want to listen to
+
+	while (1)                                      // repeat forever
+	{
+		if (!(SocketStatus & SOCK_ACTIVE)) TCPPassiveOpen();   // listen for incoming TCP-connection
+		DoNetworkStuff();                                      // handle network and easyWEB-stack
+															   // events
+		HTTPServer();
+	}
+}
+
+void HTTPServer(void)
+{
+  if (SocketStatus & SOCK_CONNECTED)             // check if somebody has connected to our TCP
+  {
+    if (SocketStatus & SOCK_DATA_AVAILABLE)      // check if remote TCP sent data
+      TCPReleaseRxBuffer();                      // and throw it away
+
+    if (SocketStatus & SOCK_TX_BUF_RELEASED)     // check if buffer is free for TX
+    {
+      if (!(HTTPStatus & HTTP_SEND_PAGE))        // init byte-counter and pointer to webside
+      {                                          // if called the 1st time
+        HTTPBytesToSend = sizeof(WebSide) - 1;   // get HTML length, ignore trailing zero
+        PWebSide = (unsigned char *)WebSide;     // pointer to HTML-code
+      }
+
+      if (HTTPBytesToSend > MAX_TCP_TX_DATA_SIZE)     // transmit a segment of MAX_SIZE
+      {
+        if (!(HTTPStatus & HTTP_SEND_PAGE))           // 1st time, include HTTP-header
+        {
+          memcpy(TCP_TX_BUF, GetResponse, sizeof(GetResponse) - 1);
+          memcpy(TCP_TX_BUF + sizeof(GetResponse) - 1, PWebSide, MAX_TCP_TX_DATA_SIZE - sizeof(GetResponse) + 1);
+          HTTPBytesToSend -= MAX_TCP_TX_DATA_SIZE - sizeof(GetResponse) + 1;
+          PWebSide += MAX_TCP_TX_DATA_SIZE - sizeof(GetResponse) + 1;
+        }
+        else
+        {
+          memcpy(TCP_TX_BUF, PWebSide, MAX_TCP_TX_DATA_SIZE);
+          HTTPBytesToSend -= MAX_TCP_TX_DATA_SIZE;
+          PWebSide += MAX_TCP_TX_DATA_SIZE;
+        }
+          
+        TCPTxDataCount = MAX_TCP_TX_DATA_SIZE;   // bytes to xfer
+        InsertDynamicValues();                   // exchange some strings...
+        TCPTransmitTxBuffer();                   // xfer buffer
+      }
+      else if (HTTPBytesToSend)                  // transmit leftover bytes
+      {
+        memcpy(TCP_TX_BUF, PWebSide, HTTPBytesToSend);
+        TCPTxDataCount = HTTPBytesToSend;        // bytes to xfer
+        InsertDynamicValues();                   // exchange some strings...
+        TCPTransmitTxBuffer();                   // send last segment
+        TCPClose();                              // and close connection
+        HTTPBytesToSend = 0;                     // all data sent
+      }
+
+      HTTPStatus |= HTTP_SEND_PAGE;              // ok, 1st loop executed
+    }
+  }
+  else
+    HTTPStatus &= ~HTTP_SEND_PAGE;               // reset help-flag if not connected
+}
+
+
+// Code Red - GetAD7Val function replaced
+// Rather than using the AD convertor, in this version we simply increment
+// a counter the function is called, wrapping at 1024. 
+volatile unsigned int aaScrollbar = 400;
+
+// searches the TX-buffer for special strings and replaces them
+// with dynamic values (AD-converter results)
+
+// Code Red - new version of InsertDynamicValues()
+
+void InsertDynamicValues(void)
+{
+	unsigned char *Key;
+			 char NewKey[6];
+	unsigned int i;
+
+	if (TCPTxDataCount < 4) return;                     // there can't be any special string
+
+	Key = TCP_TX_BUF;
+
+	for (i = 0; i < (TCPTxDataCount - 3); i++)
+	{
+	  if (*Key == 'A')
+	   if (*(Key + 1) == 'D')
+		 if (*(Key + 3) == '%')
+		   switch (*(Key + 2))
+		   {
+			 case '0' :                                 // "AD8%"?
+			 {
+			   sprintf(NewKey, "%3u", 50);     // insert pseudo-ADconverter value
+			   memcpy(Key, NewKey, 4);
+			   break;
+			 }
+			 case '1' :                                 // "AD7%"?
+			 {
+			   sprintf(NewKey, "%3u", 100);     // copy saved value from previous read
+			   memcpy(Key, NewKey, 4);
+			   break;
+			 }
+		   case '2' :                                 // "AD1%"?
+			 {
+			 sprintf(NewKey, "%3u", 50);    // increment and insert page counter
+			   memcpy(Key, NewKey, 4);
+			   break;
+			 }
+		   }
+	  Key++;
+	}
+}
+

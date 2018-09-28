@@ -1,6 +1,0 @@
-14:08:29 **** Incremental Build of configuration Debug for project rgb_joystick ****
-make -r all 
-make: Nothing to be done for `all'.
-
-14:08:29 Build Finished (took 160ms)
-
